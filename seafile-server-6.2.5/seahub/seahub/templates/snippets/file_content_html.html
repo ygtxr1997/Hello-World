@@ -1,0 +1,49 @@
+{% load i18n %}
+{% load url from future %}
+{% comment %}
+content of files that can be viewed online shows here.
+For details please refer to 'snippets/file_content_js.html'.
+{% endcomment %}
+<div id="file-view" {% if filetype == 'Image' and not err %}class="image-file-view"{% endif %}>
+    {% include 'snippets/file_encoding.html' %}
+    {% if not err %}
+        {% if filetype == 'Text' or filetype == 'Markdown' %}
+            {% ifnotequal file_content None %}
+                {% if filetype == 'Text' %}
+                <textarea id="docu-view" class="vh">{{ file_content|escape }}</textarea>
+                {% endif %}
+
+                {% if filetype == 'Markdown' %}
+                <div id="md-view" class="article"></div>
+                {% endif %}
+            {% endifnotequal %}
+        {% endif %}
+
+        {% if filetype == 'Image' %}
+            {% if from_shared_dir %}
+                {% if img_prev %}
+                <a href="?p={{img_prev|urlencode}}" id="img-prev" title="{% trans 'you can also press ← ' %}"><span class="icon-chevron-left"></span></a>
+                {% endif %}
+                {% if img_next %}
+                <a href="?p={{img_next|urlencode}}" id="img-next" title="{% trans 'you can also press → ' %}"><span class="icon-chevron-right"></span></a>
+                {% endif %}
+            {% endif %}
+            <span class="loading-icon"></span>
+            <img src="" alt="{{ file_name }}" id="image-view" class="hide" />
+        {% endif %}
+        
+        {% if filetype == 'Document' or filetype == 'PDF' and not use_pdfjs %} 
+            {% include 'snippets/office_convert_html.html' %}
+        {% endif %}
+
+        {% if filetype == 'SpreadSheet' %}
+            {% include 'snippets/spreadsheet_convert_html.html' %}
+        {% endif %}
+    {% else %}
+    <div id="file-view-tip">
+        {% if err != 'invalid extension' %}
+        <p class="error">{{ err }}</p>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>

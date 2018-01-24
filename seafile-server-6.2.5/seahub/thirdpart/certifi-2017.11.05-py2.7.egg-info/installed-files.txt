@@ -1,0 +1,15 @@
+../certifi/__init__.py
+../certifi/core.py
+../certifi/__main__.py
+../certifi/cacert.pem
+../certifi/old_root.pem
+../certifi/weak.pem
+../certifi/__init__.pyc
+../certifi/core.pyc
+../certifi/__main__.pyc
+.
+PKG-INFO
+not-zip-safe
+SOURCES.txt
+top_level.txt
+dependency_links.txt
